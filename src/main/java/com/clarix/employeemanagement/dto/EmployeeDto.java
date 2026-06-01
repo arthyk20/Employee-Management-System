@@ -94,5 +94,4 @@
             this.id = id;
         }
 
-        // getters and setters
     }
