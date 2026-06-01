@@ -1,6 +1,7 @@
 package com.clarix.employeemanagement.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "employees")
@@ -18,6 +19,12 @@ public class Employee {
 
     private Double salary;
 
+    private String gender;
+
+    private LocalDate dob;
+
+    private String mobileNumber;
+
     public Employee() {
     }
 
@@ -25,13 +32,19 @@ public class Employee {
                     String name,
                     String email,
                     String department,
-                    Double salary) {
+                    Double salary,
+                    String gender,
+                    LocalDate dob,
+                    String mobileNumber) {
 
         this.id = id;
         this.name = name;
         this.email = email;
         this.department = department;
         this.salary = salary;
+        this.gender = gender;
+        this.dob = dob;
+        this.mobileNumber = mobileNumber;
     }
 
     public Long getId() {
@@ -72,5 +85,29 @@ public class Employee {
 
     public void setSalary(Double salary) {
         this.salary = salary;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
 }

@@ -1,6 +1,6 @@
 package com.clarix.employeemanagement.controller;
 
-import com.clarix.employeemanagement.entity.Employee;
+import com.clarix.employeemanagement.dto.EmployeeDto;
 import com.clarix.employeemanagement.service.EmployeeService;
 
 import org.springframework.web.bind.annotation.*;
@@ -20,33 +20,31 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public Employee createEmployee(
-            @RequestBody Employee employee) {
+    public EmployeeDto createEmployee(
+            @RequestBody EmployeeDto dto) {
 
-        return service.createEmployee(employee);
+        return service.createEmployee(dto);
     }
 
     @GetMapping
-    public List<Employee> getAllEmployees() {
+    public List<EmployeeDto> getAllEmployees() {
 
         return service.getAllEmployees();
     }
 
     @GetMapping("/{id}")
-    public Employee getEmployeeById(
+    public EmployeeDto getEmployeeById(
             @PathVariable Long id) {
 
         return service.getEmployeeById(id);
     }
 
     @PutMapping("/{id}")
-    public Employee updateEmployee(
+    public EmployeeDto updateEmployee(
             @PathVariable Long id,
-            @RequestBody Employee employee) {
+            @RequestBody EmployeeDto dto) {
 
-        return service.updateEmployee(
-                id,
-                employee);
+        return service.updateEmployee(id, dto);
     }
 
     @DeleteMapping("/{id}")
