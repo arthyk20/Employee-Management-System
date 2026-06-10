@@ -4,7 +4,17 @@ const BASE_URL =
 window.onload = function () {
     loadEmployees();
 };
+function clearForm() {
 
+    document.getElementById("employeeId").value = "";
+    document.getElementById("name").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("department").value = "";
+    document.getElementById("salary").value = "";
+    document.getElementById("gender").value = "";
+    document.getElementById("dob").value = "";
+    document.getElementById("mobileNumber").value = "";
+}
 async function saveEmployee() {
 
     const employee = {
@@ -32,19 +42,37 @@ async function saveEmployee() {
         mobileNumber:
             document.getElementById("mobileNumber").value
     };
+    
+    const id = document.getElementById("employeeId").value;
 
-    await fetch(BASE_URL, {
+    if (id) {
 
-        method: "POST",
+        fetch(`http://localhost:8080/employees/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(employee)
+        })
+        .then(() => {
+            clearForm();
+            loadEmployees();
+        });
 
-        headers: {
-            "Content-Type":
-                "application/json"
-        },
+    } else {
 
-        body:
-            JSON.stringify(employee)
-    });
+        fetch("http://localhost:8080/employees", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(employee)
+        })
+        .then(() => {
+            clearForm();
+            loadEmployees();
+        });
+    }
 
     loadEmployees();
 }
@@ -80,12 +108,13 @@ async function loadEmployees() {
                 <td>${employee.mobileNumber}</td>
 
                 <td>
+                    <button onclick="editEmployee(${employee.id})">
+                        Edit
+                    </button>
 
                     <button
                         onclick="deleteEmployee(${employee.id})">
-
                         Delete
-
                     </button>
 
                 </td>
@@ -106,4 +135,21 @@ async function deleteEmployee(id) {
     );
 
     loadEmployees();
+}
+
+function editEmployee(id) {
+
+    fetch(`http://localhost:8080/employees/${id}`)
+        .then(response => response.json())
+        .then(employee => {
+
+            document.getElementById("employeeId").value = employee.id;
+            document.getElementById("name").value = employee.name;
+            document.getElementById("email").value = employee.email;
+            document.getElementById("department").value = employee.department;
+            document.getElementById("salary").value = employee.salary;
+            document.getElementById("gender").value = employee.gender;
+            document.getElementById("dob").value = employee.dob;
+            document.getElementById("mobileNumber").value = employee.mobileNumber;
+        });
 }

@@ -37,8 +37,7 @@ public class EmployeeService {
 
         Employee employee = repository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
-                                "Employee not found"));
+                        new RuntimeException("Employee not found"));
 
         return EmployeeMapper.toDto(employee);
     }
@@ -48,10 +47,8 @@ public class EmployeeService {
             EmployeeDto dto) {
 
 
-        Employee existingEmployee = repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException(
-                                "Employee not found"));
+        Employee existingEmployee = repository.findById(id).orElseThrow(() ->
+                        new RuntimeException("Employee not found"));
 
         existingEmployee.setName(dto.getName());
         existingEmployee.setEmail(dto.getEmail());
@@ -71,8 +68,7 @@ public class EmployeeService {
 
         Employee employee = repository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
-                                "Employee not found"));
+                        new RuntimeException("Employee not found"));
 
         repository.delete(employee);
     }
