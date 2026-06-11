@@ -1,0 +1,12 @@
+# Java build output
+EmployeeManagement/target/
+
+# IntelliJ
+.idea/
+*.iml
+
+# React
+employee-management-frontend/node_modules/
+
+# Logs
+*.log
