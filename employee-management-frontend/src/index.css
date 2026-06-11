@@ -1,0 +1,31 @@
+.employee-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.input-field {
+    width: 220px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.employee-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.employee-table th,
+.employee-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.btn {
+    padding: 8px 12px;
+    margin: 2px;
+    cursor: pointer;
+}
