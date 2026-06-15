@@ -56,7 +56,10 @@ const [formData, setFormData] = useState({
       name: "",
       email: "",
       department: "",
-      salary: ""
+      salary: "",
+      gender: "",
+      dob: "",
+      mobileNumber: ""
     });
 
     setEditingId(null);
