@@ -25,6 +25,9 @@ public class Employee {
 
     private String mobileNumber;
 
+    @Column(nullable = false)
+    private Boolean isActive = true;
+
     public Employee() {
     }
 
@@ -109,5 +112,11 @@ public class Employee {
 
     public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
+    }
+    public Boolean getIsActive() {
+        return isActive;
+    }
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
     }
 }

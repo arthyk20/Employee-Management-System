@@ -19,7 +19,7 @@ public class EmployeeService {
     public EmployeeDto createEmployee(EmployeeDto dto) {
 
         Employee employee = EmployeeMapper.toEntity(dto);
-
+        employee.setIsActive(true);
         Employee savedEmployee = repository.save(employee);
 
         return EmployeeMapper.toDto(savedEmployee);
@@ -27,7 +27,7 @@ public class EmployeeService {
 
     public List<EmployeeDto> getAllEmployees() {
 
-        return repository.findAll()
+        return repository.findByIsActiveTrue()
                 .stream()
                 .map(EmployeeMapper::toDto)
                 .toList();
@@ -70,6 +70,8 @@ public class EmployeeService {
                 .orElseThrow(() ->
                         new RuntimeException("Employee not found"));
 
-        repository.delete(employee);
+        employee.setIsActive(false);
+
+        repository.save(employee);
     }
 }
