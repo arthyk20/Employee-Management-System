@@ -1,70 +1,123 @@
-function EmployeeForm({
-  formData,
-  handleChange,
-  handleSubmit,
-  editingId
-}) {
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+
+function EmployeeForm({ onSubmit, editingId, editingEmployee }) {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid }
+  } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      name: "",
+      email: "",
+      department: "",
+      salary: "",
+      gender: "",
+      dob: "",
+      mobileNumber: ""
+    }
+  });
+
+  useEffect(() => {
+    if (editingEmployee) {
+      reset({
+        name: editingEmployee.name,
+        email: editingEmployee.email,
+        department: editingEmployee.department,
+        salary: editingEmployee.salary,
+        gender: editingEmployee.gender,
+        dob: editingEmployee.dob,
+        mobileNumber: editingEmployee.mobileNumber
+      });
+    }
+  }, [editingEmployee, reset]);
+
+  const submitHandler = async (data) => {
+    await onSubmit(data);
+    reset();
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="employee-form">
+    <form onSubmit={handleSubmit(submitHandler)} className="employee-form">
 
       <input
         className="input-field"
-        name="name"
         placeholder="Name"
-        value={formData.name}
-        onChange={handleChange}
+        {...register("name", { required: "Name is required" })}
       />
-
+      <p className="error">{errors.name?.message}</p>
       <input
         className="input-field"
-        name="email"
         placeholder="Email"
-        value={formData.email}
-        onChange={handleChange}
+        {...register("email", {
+          required: "Email is required",
+          pattern: {
+            value: /^\S+@\S+$/i,
+            message: "Invalid email format"
+          }
+        })}
       />
+      <p className="error">{errors.email?.message}</p>
 
       <input
         className="input-field"
-        name="department"
         placeholder="Department"
-        value={formData.department}
-        onChange={handleChange}
+        {...register("department", { required: "Department is required" })}
       />
-
+      <p className="error">{errors.department?.message}</p>
       <input
         className="input-field"
-        name="salary"
         placeholder="Salary"
-        value={formData.salary}
-        onChange={handleChange}
+        type="number"
+        {...register("salary", {
+          required: "Salary is required",
+          min: { value: 1, message: "Salary must be greater than 0" }
+        })}
       />
+      <p className="error">{errors.salary?.message}</p>
 
-      <input
+      <select
         className="input-field"
-        name="gender"
-        placeholder="Gender"
-        value={formData.gender}
-        onChange={handleChange}
-      />
+        {...register("gender", { required: "Gender is required" })}
+      >
+        <option value="">Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+      <p className="error">{errors.gender?.message}</p>
 
+      {/* DOB */}
       <input
         className="input-field"
         type="date"
-        name="dob"
-        value={formData.dob}
-        onChange={handleChange}
+        {...register("dob", { required: "Date of Birth is required" })}
       />
+      <p className="error">{errors.dob?.message}</p>
 
+      {/* Mobile */}
       <input
         className="input-field"
-        name="mobileNumber"
         placeholder="Mobile Number"
-        value={formData.mobileNumber}
-        onChange={handleChange}
+        {...register("mobileNumber", {
+          required: "Mobile number is required",
+          pattern: {
+            value: /^[0-9]{10}$/,
+            message: "Enter valid 10-digit number"
+          }
+        })}
       />
+      <p className="error">{errors.mobileNumber?.message}</p>
 
-      <button className="btn" type="submit">
-        {editingId ? "Update Employee" : "Add Employee"}
+      {/* Submit Button */}
+      <button
+        className="btn"
+        type="submit"
+        disabled={!isValid}
+      >
+        {editingId ? "Update Employee" : "Save Employee"}
       </button>
 
     </form>

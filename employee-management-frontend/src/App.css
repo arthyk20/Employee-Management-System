@@ -17,6 +17,15 @@
   }
 }
 
+.page-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 20px 0;
+  color: #1f2937;
+  letter-spacing: 0.5px;
+}
+
 .hero {
   position: relative;
 

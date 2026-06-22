@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import EmployeeForm from "./components/EmployeeForm";
 import EmployeeTable from "./components/EmployeeTable";
+import "./App.css";
 
 import {
   getEmployees,
@@ -15,15 +16,7 @@ function App() {
 
   const [editingId, setEditingId] = useState(null);
 
-const [formData, setFormData] = useState({
-  name: "",
-  email: "",
-  department: "",
-  salary: "",
-  gender: "",
-  dob: "",
-  mobileNumber: ""
-});
+  const [editingEmployee, setEditingEmployee] = useState(null);
 
   useEffect(() => {
     loadEmployees();
@@ -34,57 +27,46 @@ const [formData, setFormData] = useState({
     setEmployees(data);
   };
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (data) => {
 
     if (editingId) {
-      await updateEmployee(editingId, formData);
+      await updateEmployee(editingId, data);
     } else {
-      await createEmployee(formData);
+      await createEmployee(data);
     }
 
     loadEmployees();
 
-    setFormData({
-      name: "",
-      email: "",
-      department: "",
-      salary: "",
-      gender: "",
-      dob: "",
-      mobileNumber: ""
-    });
-
+    
     setEditingId(null);
+    setEditingEmployee(null);
   };
 
   const editEmployee = (employee) => {
     setEditingId(employee.id);
-    setFormData(employee);
+    setEditingEmployee(employee);
   };
 
-  const removeEmployee = async (id) => {
-    await deleteEmployee(id);
-    loadEmployees();
-  };
+ const removeEmployee = async (id) => {
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this employee?"
+  );
+
+  if (!confirmDelete) return;
+
+  await deleteEmployee(id);
+  loadEmployees();
+};
 
   return (
     <>
-      <h1>Employee Management</h1>
+      <h1  className="page-title">Employee Management</h1>
 
       <EmployeeForm
-        formData={formData}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
+        onSubmit={handleSubmit}
         editingId={editingId}
-      />
+        editingEmployee={editingEmployee}
+    />
 
       <EmployeeTable
         employees={employees}
